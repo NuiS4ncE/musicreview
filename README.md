@@ -8,4 +8,4 @@ Sovelluksen ominaisuuksia ovat:
 * Käyttäjä voi lisätä kappaleen, antaa sille arvosanan ja kirjoittaa arvion 
 * Käyttäjä voi kommentoida kappaleen arviota 
 * Käyttäjä voi poistaa lisäämänsä kappaleen 
-
+* Käyttäjä voi lisätä ulkoisen linkin kappaleeseen
