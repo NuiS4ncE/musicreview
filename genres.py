@@ -19,3 +19,8 @@ def remove_genre(genre_id, user_id):
     sql = "UPDATE genres WHERE id=:id AND creator_id=:user_id"
     db.session.execute(sql, {"id":genre_id, "user_id":user_id})
     db.session.commit()
+
+def get_genre_info(gname):
+    sql = """SELECT info FROM genres WHERE gname=:gname"""
+    return db.session.execute(sql, {"gname":gname}).fetchone()
+

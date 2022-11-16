@@ -8,13 +8,15 @@ CREATE TABLE users (
 CREATE TABLE genres (
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users,
-    gname TEXT
+    gname TEXT,
+    info TEXT
 );
 
 CREATE TABLE songs ( 
     ID SERIAL PRIMARY KEY,
     genre_id INTERGER REFERENCES genres,
     sname TEXT,
+    info TEXT,
     hyperlink TEXT
 );
 
