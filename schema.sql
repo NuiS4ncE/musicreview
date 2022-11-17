@@ -17,6 +17,7 @@ CREATE TABLE songs (
     genre_id INTEGER REFERENCES genres,
     creator_id INTEGER REFERENCES users,
     sname TEXT,
+    genre TEXT,
     info TEXT,
     hyperlink TEXT
 );

@@ -4,16 +4,19 @@ from flask import abort, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
-    sql = "SELECT password, id, FROM users WHERE username=:username"
-    result = db.session.execute(sql, {"name":username})
-    username = result.fetchone()
-    if not username:
+    sql = "SELECT password, id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    print("in login function")
+    if not user:
         return False
-    if not check_password_hash(username[0], password):
+    if not check_password_hash(user[0], password):
         return False
-    session["user_id"] = username[1]
+    print("session cast next")
+    session["user_id"] = user[1]
     session["username"] = username
     session["csrf_token"] = os.urandom(16).hex()
+    print("session casts done, next returning true")
     return True
 
 def logout():
@@ -22,9 +25,10 @@ def logout():
     
 def register(username, password):
     hash_value = generate_password_hash(password)
+    print("In users.register() function")
     try:
         sql = """INSERT INTO users (username, password)
-        VALUES (:username, :password"""
+        VALUES (:username, :password)"""
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
     except:
@@ -45,8 +49,8 @@ def get_user_info(user_id):
     sql = """SELECT id, gname FROM genres
             WHERE creator_id=:user_id ORDER BY gname"""
     genres = db.session.execute(sql, {"user_id": user_id}).fetchall()
-    print(songs)
-    print(genres)
+    #print(songs)
+    #print(genres)
     userData = []
     #for song in songs:
         #userData.append((song[]))

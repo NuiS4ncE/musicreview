@@ -6,7 +6,9 @@ import songs
 
 @app.route("/")
 def index():
-    return render_template("index.html", genres=genres.get_all_genres())
+    #, genres=genres.get_all_genres()
+    print("rendering frontpage")
+    return render_template("index.html")
 
 @app.route("/add", methods=["get", "post"])
 def add_genre():
@@ -54,6 +56,7 @@ def login():
 
         if not users.login(username, password):
             return render_template("error.html", message="Wrong username or password")
+        print("redirecting to frontpage")
         return redirect("/")
 
 @app.route("/logout")
@@ -61,7 +64,7 @@ def logout():
     users.logout()
     return redirect("/")
 
-@app.route("/register")
+@app.route("/register", methods=["get", "post"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
@@ -84,3 +87,8 @@ def register():
 def show_myinfo():
     myinfo = users.get_user_info(users.user_id())
     return render_template("myinfo.html", data=myinfo)
+
+@app.route("/genres")
+def show_genres():
+    genredata = genres.get_all_genres()
+    return render_template("genres.html", data=genredata)

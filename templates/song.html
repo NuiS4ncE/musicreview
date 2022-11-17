@@ -1,0 +1,35 @@
+{% block title %}{{ gname }}{% endblock %}
+{% block content %}
+<h2> {{ sname }} </h2>
+<div class="embed-responsive embed-responsive-21by9">
+    <iframe class="embed-responsive-item" src="{{hyperlink}}"></iframe>
+</div>
+
+{% if reviews %}
+<h3>Reviews</h3>
+{% endif %}
+{% if session.user_id %}
+<ul>
+    {% for entry in reviews %}
+    <li> {{ entry[0] }} ({{ entry[1] }}/5): "{{ entry[2] }}"
+        {% endfor %}
+</ul>
+<h3>Review song</h3>
+<form action="/review" method="post">
+    Tähdet:
+    <select name="stars">
+        <option value="1">1
+        <option value="2">2
+        <option value="3">3
+        <option value="4">4
+        <option value="5">5
+    </select>
+    <p>
+        Review:<br>
+        <textarea name="comment" rows="3" cols="40" maxlength="1000"></textarea>
+    <p><input type="submit" value="Send">
+        <input type="hidden" name="song_id" value="{{ id }}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% endif %}
+{% endblock %}

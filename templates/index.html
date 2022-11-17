@@ -4,8 +4,19 @@
 <h1>Welcome to MusicReview</h1>
 
 {% if session.user_id %}
-<b>{{ session.user_name }}</b>
+<b>{{ session.username }}</b>
+<p>
+Start reviewing or add songs or genres!
+<ul>
+    <li> <a href="/addgenre">Add a genre</a>
+    <li> <a href="/addsong">Add a song</a>    
+    </ul>
 {% else %}
-You're not logged in. <a href="/login">Sign up</a>
+You're not logged in. 
+
+<p>
+<a href="/login">Login</a> 
+<p>
+<a href="/register">Sign up</a>
 {% endif %}
 {% endblock %}

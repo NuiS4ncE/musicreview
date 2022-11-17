@@ -1,0 +1,11 @@
+{% block title %}{{ gname }}{% endblock %}
+{% block content %}
+<h2> {{ gname }} </h2>
+{{ info }}
+
+<ul>
+    {% for song in songs %}
+    <li><a href="/song/{{ song.id }}">{{ song.name }}</a>
+    {% endfor %}
+    </ul>
+{% endblock %}
