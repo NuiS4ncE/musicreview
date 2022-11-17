@@ -10,7 +10,7 @@ def index():
     print("rendering frontpage")
     return render_template("index.html")
 
-@app.route("/add", methods=["get", "post"])
+@app.route("/addgenre", methods=["get", "post"])
 def add_genre():
     if request.method == "GET":
         return render_template("addgenre.html")
@@ -19,11 +19,16 @@ def add_genre():
         users.check_csrf()
 
         gname = request.form["gname"]
+        
         if len(gname) < 1 or len(gname) > 20:
             return render_template("error.html", message="Genre name should be 1-20 characters long")
 
-        genre_id = genres.add_genre(gname, users.user_id())
-        return render_template("/genre/"+str(genre_id))
+        gdesc = request.form["gdesc"]
+        if len(gdesc) > 10000:
+            return render_template("error.html", message="Description too long.")
+        genre_id = genres.add_genre(gname, gdesc, users.user_id())
+        print("Redirecting")
+        return redirect("/genre/"+gname)
 
 @app.route("/remove", methods=["get", "post"])
 def remove_genre():
@@ -43,7 +48,10 @@ def remove_genre():
 @app.route("/genre/<gname>")
 def show_genre(gname):
     info = genres.get_genre_info(gname)
-    reviews = songs.get_reviews()
+    #reviews = songs.get_reviews()
+    songlist = songs.get_by_genre(gname)
+    print("Info[0]" + info[0] + " and " + info[1])
+    return render_template("genre.html", gname=info[0], gdesc=info[1], songli=songlist)
 
 @app.route("/login", methods=["get", "post"])
 def login():

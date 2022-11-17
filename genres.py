@@ -9,10 +9,10 @@ def get_my_genres(user_id):
             WHERE creator_id=:user_id ORDER BY gname"""
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
 
-def add_genre(gname, creator_id):
-    sql = """INSERT INTO genres (creator_id, gname)
-            VALUES (:creator_id, :name) RETURNING id"""
-    genre_id = db.session.execute(sql, {"creator_id":creator_id, "gname":gname}).fetchone()[0]
+def add_genre(gname, gdesc, creator_id):
+    sql = """INSERT INTO genres (creator_id, gname, gdesc)
+            VALUES (:creator_id, :gname, :gdesc) RETURNING gname"""
+    genre_id = db.session.execute(sql, {"creator_id":creator_id, "gname":gname, "gdesc":gdesc}).fetchone()[0]
     return genre_id
 
 def remove_genre(genre_id, user_id):
@@ -21,6 +21,6 @@ def remove_genre(genre_id, user_id):
     db.session.commit()
 
 def get_genre_info(gname):
-    sql = """SELECT info FROM genres WHERE gname=:gname"""
+    sql = """SELECT gname, gdesc FROM genres WHERE gname=:gname"""
     return db.session.execute(sql, {"gname":gname}).fetchone()
 
