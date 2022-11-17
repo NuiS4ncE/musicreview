@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect
 import genres
 import users
+import songs
 
 @app.route("/")
 def index():
@@ -37,7 +38,49 @@ def remove_genre():
 
             return redirect("/")
 
-@app.route("/genre/<str:gname>")
+@app.route("/genre/<gname>")
 def show_genre(gname):
     info = genres.get_genre_info(gname)
-    reviews = genres.get_reviews()
+    reviews = songs.get_reviews()
+
+@app.route("/login", methods=["get", "post"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if not users.login(username, password):
+            return render_template("error.html", message="Wrong username or password")
+        return redirect("/")
+
+@app.route("/logout")
+def logout():
+    users.logout()
+    return redirect("/")
+
+@app.route("/register")
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        if len(username) < 1 or len(username) > 20:
+            return render_template("error.html", message="Username has to be 1 to 20 characters long")
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+        if password1 != password2:
+            return render_template("error.html", message="Passwords are not the same")
+        if password1 == "":
+            return render_template("error.html", message="No password set")
+
+        if not users.register(username, password1):
+            return render_template("error.html", message="Something went wrong! Could not register!")
+        return redirect("/")
+
+@app.route("/myinfo")
+def show_myinfo():
+    myinfo = users.get_user_info(users.user_id())
+    return render_template("myinfo.html", data=myinfo)

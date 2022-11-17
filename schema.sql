@@ -14,7 +14,8 @@ CREATE TABLE genres (
 
 CREATE TABLE songs ( 
     ID SERIAL PRIMARY KEY,
-    genre_id INTERGER REFERENCES genres,
+    genre_id INTEGER REFERENCES genres,
+    creator_id INTEGER REFERENCES users,
     sname TEXT,
     info TEXT,
     hyperlink TEXT
