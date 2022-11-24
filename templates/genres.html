@@ -3,7 +3,7 @@
 {% block content %}
 <h2>Genres</h2>
 <ul>
-    {% for genre in data %}
+    {% for genre in genres %}
     <li><a href="/genre/{{ genre.genre_url }}">{{ genre.gname }}</a>
     {% endfor %}
     </ul>

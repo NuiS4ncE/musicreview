@@ -3,7 +3,7 @@
 <h2> {{ gname }} </h2>
 {{ gdesc }}
 <p>
-<a href="{{ gname }}/addsong">Add a song to the genre</a>
+<a href="/addsong">Add a song to the genre</a>
 <ul>
     {% for song in songli %}
     <li><a href="/song/{{ song.id }}">{{ song.name }}</a>

@@ -14,6 +14,7 @@ def index():
 @app.route("/addgenre", methods=["get", "post"])
 def add_genre():
     if request.method == "GET":
+
         return render_template("addgenre.html")
 
     if request.method == "POST":
@@ -32,6 +33,7 @@ def add_genre():
         if check_genre == "true":
             return render_template("error.html", message="Genre already exists. Name must be unique.")
         genre_url = urllib.parse.quote(gname)
+        print("genre_url in add genre: " + genre_url)
         genres.add_genre(gname, gdesc, users.user_id(), genre_url)        
         print("Redirecting")
         
@@ -40,7 +42,9 @@ def add_genre():
 @app.route("/addsong", methods=["get", "post"])
 def add_song():
     if request.method == "GET":
-        return render_template("addsong.html")
+        genrelist = genres.get_all_genres()
+        print(str(genrelist))
+        return render_template("addsong.html", genredata=genrelist)
 
     if request.method == "POST":
         users.check_csrf()
@@ -48,7 +52,7 @@ def add_song():
         sname = request.form["sname"]
         hyperlink = request.form["hyperlink"]
         gname = request.form["gname"]
-        genre_id = request.form["genre_id"]
+        genre_id = genres.get_genre_info_by_name(gname)[0]
         
         if len(sname) < 1 or len(sname) > 200:
             return render_template("error.html", message="Song name should be 1-200 characters long")
@@ -82,11 +86,12 @@ def remove_genre():
 
 @app.route("/genre/<genre_url>")
 def show_genre(genre_url):
-    info = genres.get_genre_info_by_name(genre_url)
+    print("genre_url in show_genre: " + genre_url)
+    gname = urllib.parse.unquote(genre_url)
+    info = genres.get_genre_info_by_name(gname)
     #reviews = songs.get_reviews()
-    gname = info[1]
     songli = songs.get_by_genre(gname)
-    print("Info[0] " + str(info[0]) + " and info[1] " + str(info[1]) + " and info[2] " + str(info[2]))
+    print("Info[0] " + str(info[0]) + " and info[1] " + str(info[1]) + " and info[2] " + str(info[2]) + " and info[3] " + str(info[3]))
     return render_template("genre.html", genre_id=info[0], gname=info[1], gdesc=info[2], songlist=songli)
 
 @app.route("/login", methods=["get", "post"])
@@ -135,4 +140,5 @@ def show_myinfo():
 @app.route("/genres")
 def show_genres():
     genredata = genres.get_all_genres()
-    return render_template("genres.html", data=genredata)
+    print("genredata " + str(genredata))
+    return render_template("genres.html", genres=genredata)
