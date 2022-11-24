@@ -1,9 +1,9 @@
-{% block title %}{{ gname }}{% endblock %}
+{% extends "layout.html" %}
 {% block content %}
 <h2> {{ gname }} </h2>
 {{ gdesc }}
-
-<a href="/addsong">Add a song to the genre</a>
+<p>
+<a href="{{ gname }}/addsong">Add a song to the genre</a>
 <ul>
     {% for song in songli %}
     <li><a href="/song/{{ song.id }}">{{ song.name }}</a>

@@ -3,6 +3,7 @@ from flask import render_template, request, redirect
 import genres
 import users
 import songs
+import urllib.parse
 
 @app.route("/")
 def index():
@@ -26,9 +27,43 @@ def add_genre():
         gdesc = request.form["gdesc"]
         if len(gdesc) > 10000:
             return render_template("error.html", message="Description too long.")
-        genre_id = genres.add_genre(gname, gdesc, users.user_id())
+        # try - catch?
+        check_genre = genres.check_if_gexists(gname)
+        if check_genre == "true":
+            return render_template("error.html", message="Genre already exists. Name must be unique.")
+        genre_url = urllib.parse.quote(gname)
+        genres.add_genre(gname, gdesc, users.user_id(), genre_url)        
         print("Redirecting")
-        return redirect("/genre/"+gname)
+        
+        return redirect("/genre/"+genre_url)
+
+@app.route("/addsong", methods=["get", "post"])
+def add_song():
+    if request.method == "GET":
+        return render_template("addsong.html")
+
+    if request.method == "POST":
+        users.check_csrf()
+
+        sname = request.form["sname"]
+        hyperlink = request.form["hyperlink"]
+        gname = request.form["gname"]
+        genre_id = request.form["genre_id"]
+        
+        if len(sname) < 1 or len(sname) > 200:
+            return render_template("error.html", message="Song name should be 1-200 characters long")
+
+        sdesc = request.form["sdesc"]
+        if len(sdesc) > 10000:
+            return render_template("error.html", message="Description too long.")
+        song_id = songs.add_song(users.user_id(), genre_id, sname, gname, sdesc, hyperlink)        
+        print("Redirecting")
+        
+        return redirect("/song/"+song_id)
+
+def url_parse(list):
+    for parses in list:
+        asd
 
 @app.route("/remove", methods=["get", "post"])
 def remove_genre():
@@ -45,13 +80,14 @@ def remove_genre():
 
             return redirect("/")
 
-@app.route("/genre/<gname>")
-def show_genre(gname):
-    info = genres.get_genre_info(gname)
+@app.route("/genre/<genre_url>")
+def show_genre(genre_url):
+    info = genres.get_genre_info_by_name(genre_url)
     #reviews = songs.get_reviews()
-    songlist = songs.get_by_genre(gname)
-    print("Info[0]" + info[0] + " and " + info[1])
-    return render_template("genre.html", gname=info[0], gdesc=info[1], songli=songlist)
+    gname = info[1]
+    songli = songs.get_by_genre(gname)
+    print("Info[0] " + str(info[0]) + " and info[1] " + str(info[1]) + " and info[2] " + str(info[2]))
+    return render_template("genre.html", genre_id=info[0], gname=info[1], gdesc=info[2], songlist=songli)
 
 @app.route("/login", methods=["get", "post"])
 def login():

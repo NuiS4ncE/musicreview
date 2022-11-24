@@ -2,13 +2,9 @@
 {% block title %}Genres{% endblock %}
 {% block content %}
 <h2>Genres</h2>
-{% for entry in data %}
-<table>
-    <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</table>
-{% endfor %}
+<ul>
+    {% for genre in data %}
+    <li><a href="/genre/{{ genre.genre_url }}">{{ genre.gname }}</a>
+    {% endfor %}
+    </ul>
 {% endblock %}

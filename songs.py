@@ -12,5 +12,14 @@ def get_reviews(song_id):
     return db.session.execute(sql, {"song_id": song_id}).fetchall()
 
 def get_by_genre(gname):
-    sql = """SELECT s.sname, s.sdesc FROM songs s, genres g WHERE g.gname:=gname ORDER BY s.sname"""
-    return db.session.execute(sql, {"gname": gname})
+    sql = """SELECT s.sname, s.sdesc FROM songs s, genres g 
+    WHERE g.gname=:gname ORDER BY s.sname"""
+    return db.session.execute(sql, {"gname": gname}).fetchall()
+
+def add_song(creator_id, genre_id, sname, gname, sdesc, hyperlink):
+    sql = """INSERT INTO songs (creator_id, genre_id, sname, gname, sdesc, hyperlink)
+            VALUES (:creator_id, :genre_id, :sname, :gname, :sdesc, :hyperlink) RETURNING sname"""
+    genre_id = db.session.execute(sql, {"creator_id":creator_id, "genre_id":genre_id, "sname":sname, 
+    "gname":gname, "sdesc":sdesc, "hyperlink":hyperlink}).fetchone()[0]
+    db.session.commit()
+    return genre_id
