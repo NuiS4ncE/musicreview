@@ -7,16 +7,16 @@ def login(username, password):
     sql = "SELECT password, id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
-    print("in login function")
+    #print("in login function")
     if not user:
         return False
     if not check_password_hash(user[0], password):
         return False
-    print("session cast next")
+    #print("session cast next")
     session["user_id"] = user[1]
     session["username"] = username
     session["csrf_token"] = os.urandom(16).hex()
-    print("session casts done, next returning true")
+    #print("session casts done, next returning true")
     return True
 
 def logout():
@@ -25,7 +25,7 @@ def logout():
     
 def register(username, password):
     hash_value = generate_password_hash(password)
-    print("In users.register() function")
+    #print("In users.register() function")
     try:
         sql = """INSERT INTO users (username, password)
         VALUES (:username, :password)"""

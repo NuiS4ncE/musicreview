@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Artists{% endblock %}
+{% block content %}
+<h2>Artists</h2>
+<ul>
+    {% for artist in artists %}
+    <li><a href="/artist/{{ artist.id }}">{{ artist.aname }}</a>
+    {% endfor %}
+    </ul>
+{% endblock %}
