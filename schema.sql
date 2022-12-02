@@ -1,15 +1,15 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username TEXT,
-    password TEXT, 
+    username TEXT NOT NULL,
+    password TEXT NOT NULL, 
     role INTEGER
 );
 
 CREATE TABLE genres (
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users,
-    gname TEXT,    
-    gdesc TEXT,
+    gname TEXT NOT NULL,    
+    gdesc TEXT NOT NULL,
     genre_url TEXT,
     CONSTRAINT gname_unique UNIQUE (gname)
 );
@@ -18,10 +18,10 @@ CREATE TABLE songs (
     id SERIAL PRIMARY KEY,
     genre_id INTEGER REFERENCES genres,
     creator_id INTEGER REFERENCES users,
-    sname TEXT,
-    gname TEXT,
-    sdesc TEXT,
-    hyperlink TEXT
+    sname TEXT NOT NULL,
+    gname TEXT NOT NULL,
+    sdesc TEXT NOT NULL,
+    hyperlink TEXT NOT NULL
 );
 
 CREATE TABLE reviews (
@@ -29,5 +29,5 @@ CREATE TABLE reviews (
     user_id INTEGER REFERENCES users,
     song_id INTEGER REFERENCES songs,
     stars INTEGER, 
-    comment TEXT
+    comment TEXT NOT NULL
 );

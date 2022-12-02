@@ -1,14 +1,22 @@
 {% extends "layout.html" %}
-{% block title %}Genres{% endblock %}
+{% block title %}Songs{% endblock %}
 {% block content %}
 <h2>Songs</h2>
-{% for entry in data %}
+
 <table>
-    <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+    <thead>
+        <th>Song</th>
+        <th>Genre</th>
+    </thead>
+
+    <body>
+        {% for entry in songs %}
+        <tr>
+            <td><a href="/song/{{ entry.id }}">{{ entry.sname }}</a></td>
+            <td><a href="/genre/{{ entry.gname }}">{{ entry.gname }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
 </table>
-{% endfor %}
+
 {% endblock %}

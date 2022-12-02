@@ -4,7 +4,7 @@ from db import db
 def get_song_info(song_id):
     sql = """SELECT s.name, u.name FROM songs s, users u
     WHERE s.id=:song_id AND u.creator_id=u.id"""
-    return db.session.execute(sql, {"song_id": song_id}).fetchone()[0]
+    return db.session.execute(sql, {"song_id": song_id}).fetchone()
 
 def get_reviews(song_id):
     sql = """SELECT u.name, r.stars, r.comment FROM reviews r, users u 
@@ -18,8 +18,16 @@ def get_by_genre(gname):
 
 def add_song(creator_id, genre_id, sname, gname, sdesc, hyperlink):
     sql = """INSERT INTO songs (creator_id, genre_id, sname, gname, sdesc, hyperlink)
-            VALUES (:creator_id, :genre_id, :sname, :gname, :sdesc, :hyperlink) RETURNING sname"""
+            VALUES (:creator_id, :genre_id, :sname, :gname, :sdesc, :hyperlink) RETURNING id"""
     genre_id = db.session.execute(sql, {"creator_id":creator_id, "genre_id":genre_id, "sname":sname, 
     "gname":gname, "sdesc":sdesc, "hyperlink":hyperlink}).fetchone()[0]
     db.session.commit()
     return genre_id
+
+def get_all_songs():
+    sql = """SELECT id, sname, gname FROM songs ORDER BY sname"""
+    return db.session.execute(sql).fetchall()
+
+def get_by_id(song_id):
+    sql = """SELECT id, sname, gname, sdesc, hyperlink FROM songs WHERE id=:song_id"""
+    return db.session.execute(sql, {"song_id": song_id}).fetchone()
