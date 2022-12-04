@@ -43,15 +43,10 @@ def check_csrf():
         abort(403)
 
 def get_user_info(user_id):
-    sql = """SELECT id, sname FROM songs 
-            WHERE creator_id=:user_id ORDER BY sname"""
-    songs = db.session.execute(sql, {"user_id": user_id}).fetchall()
-    sql = """SELECT id, gname FROM genres
-            WHERE creator_id=:user_id ORDER BY gname"""
-    genres = db.session.execute(sql, {"user_id": user_id}).fetchall()
-    #print(songs)
-    #print(genres)
-    userData = []
-    #for song in songs:
-        #userData.append((song[]))
-    return userData
+    sql = """SELECT username, sname, gname, aname FROM users 
+    INNER JOIN songs ON songs.creator_id=:user_id 
+    INNER JOIN genres ON genres.creator_id=:user_id 
+    INNER JOIN artists ON artists.creator_id=:user_id"""
+    userInfo = db.session.execute(sql, {"user_id": user_id}).fetchall()
+    print(userInfo)
+    return userInfo

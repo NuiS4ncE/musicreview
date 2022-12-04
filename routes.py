@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template, request, redirect
+import artists
 import genres
 import users
 import songs
@@ -12,6 +13,28 @@ def index():
     # , genres=genres.get_all_genres()
     # print("rendering frontpage")
     return render_template("index.html")
+
+@app.route("/addartist", methods=["get", "post"])
+def add_artist():
+    if request.method == "GET":
+        artistlist = artists.get_all_artists()
+        # print(str(genrelist))
+        return render_template("addsong.html", artistdata=artistlist)
+
+    if request.method == "POST":
+        users.check_csrf()
+
+        aname = request.form["aname"]
+        
+        if len(aname) < 1 or len(aname) > 200:
+            return render_template("error.html", message="Song name should be 1-200 characters long")
+
+        
+        artist_id = artists.add_song(
+            users.user_id(), aname)
+        # print("Redirecting")
+
+        return redirect("/artist/"+str(artist_id))
 
 
 @app.route("/addgenre", methods=["get", "post"])
@@ -53,6 +76,7 @@ def add_song():
     if request.method == "POST":
         users.check_csrf()
 
+        aname = request.form["aname"]
         sname = request.form["sname"]
         hyperlink = request.form["hyperlink"]
         gname = request.form["gname"]
@@ -65,12 +89,14 @@ def add_song():
         if len(sdesc) > 10000:
             return render_template("error.html", message="Description too long.")
         # Check for Youtube link and get video id
-        print("Hyperlink " + hyperlink)
+        # print("Hyperlink " + hyperlink)
         condition = url_check(hyperlink)
         hyperlink = url_parse(hyperlink)
-
+        
+        creator_id = users.user_id()
+        artist_id = artists.add_artist(creator_id, genre_id, aname)
         song_id = songs.add_song(
-            users.user_id(), genre_id, sname, gname, sdesc, hyperlink, condition)
+            creator_id, genre_id, artist_id, sname, sdesc, hyperlink, condition)
         # print("Redirecting")
 
         return redirect("/song/"+str(song_id))
@@ -190,26 +216,32 @@ def register():
 @app.route("/myinfo")
 def show_myinfo():
     myinfo = users.get_user_info(users.user_id())
-    return render_template("myinfo.html", data=myinfo)
+    return render_template("myinfo.html", userdata=myinfo)
 
 
 @app.route("/genres")
 def show_genres():
     genredata = genres.get_all_genres()
-    print("genredata " + str(genredata))
+    #print("genredata " + str(genredata))
     return render_template("genres.html", genres=genredata)
 
+@app.route("/artists")
+def show_artists():
+    artistdata = artists.get_all_artists()
+    return render_template("artists.html", artists=artistdata)
 
 @app.route("/songs")
 def show_songs():
     songdata = songs.get_all_songs()
-    print("songdata " + str(songdata))
+    #print("songdata " + str(songdata))
     return render_template("songs.html", songs=songdata)
 
 
 @app.route("/song/<int:song_id>")
 def show_song(song_id):
     song = songs.get_by_id(song_id)
+    #print("song: " + str(song))
+    artist = artists.get_by_id(song[6])
     return render_template("song.html", sid=song[0], sname=song[1], 
-    gname=song[2], sdesc=song[3], hyperlink=song[4], condition=song[5])
+    gname=song[2], sdesc=song[3], hyperlink=song[4], condition=song[5], aname=artist[1])
 

@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<h2>Artist: {{ aname }}</h2>
 <h2>Song: {{ sname }} </h2>
 <h2>Genre: {{ gname }}</h2>
 {% if condition == "youtube" %}
@@ -42,4 +43,5 @@
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}
+<a href="/addsong">Add a song</a>    
 {% endblock %}

@@ -16,18 +16,24 @@ def get_by_genre(gname):
     WHERE g.gname=:gname ORDER BY s.sname"""
     return db.session.execute(sql, {"gname": gname}).fetchall()
 
-def add_song(creator_id, genre_id, sname, gname, sdesc, hyperlink, condition):
-    sql = """INSERT INTO songs (creator_id, genre_id, sname, gname, sdesc, hyperlink, condition)
-            VALUES (:creator_id, :genre_id, :sname, :gname, :sdesc, :hyperlink, :condition) RETURNING id"""
-    genre_id = db.session.execute(sql, {"creator_id":creator_id, "genre_id":genre_id, "sname":sname, 
-    "gname":gname, "sdesc":sdesc, "hyperlink":hyperlink, "condition":condition}).fetchone()[0]
+def add_song(creator_id, genre_id, artist_id, sname, sdesc, hyperlink, condition):
+    sql = """INSERT INTO songs (creator_id, genre_id, artist_id, sname, sdesc, hyperlink, condition)
+            VALUES (:creator_id, :genre_id, :artist_id, :sname, :sdesc, :hyperlink, :condition) RETURNING id"""
+    song_id = db.session.execute(sql, {"creator_id":creator_id, "genre_id":genre_id, 
+    "artist_id":artist_id, "sname":sname, "sdesc":sdesc, "hyperlink":hyperlink, "condition":condition}).fetchone()[0]
     db.session.commit()
-    return genre_id
+    sql = """INSERT INTO songsgenres (genre_id, song_id) VALUES (:song_id, :genre_id)"""
+    db.session.execute(sql, {"genre_id":genre_id, "song_id":song_id})
+    db.session.commit()
+    return song_id
 
 def get_all_songs():
-    sql = """SELECT id, sname, gname FROM songs ORDER BY sname"""
+    sql = """SELECT s.id, s.sname, g.gname FROM songs s, genres g, songsgenres sg 
+    WHERE s.id = sg.song_id AND g.id = sg.genre_id"""
     return db.session.execute(sql).fetchall()
 
 def get_by_id(song_id):
-    sql = """SELECT id, sname, gname, sdesc, hyperlink, condition FROM songs WHERE id=:song_id"""
+    sql = """SELECT s.id, s.sname, g.gname, s.sdesc, s.hyperlink, s.condition, s.artist_id 
+    FROM songs s, genres g, songsgenres sg 
+    WHERE sg.song_id=:song_id"""
     return db.session.execute(sql, {"song_id": song_id}).fetchone()

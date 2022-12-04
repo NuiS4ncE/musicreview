@@ -1,3 +1,24 @@
 {% extends "layout.html" %}
+{% block title %}My Info{% endblock %}
 {% block content %}
+<h2>My Info</h2>
+Username: {{ userdata.username }} <br>
+Added genres:
+<ul>
+    {% for data in userdata %}
+    <li><a href="/genre/{{ data.gname }}">{{ data.gname }}</a>
+    {% endfor %}
+    </ul>
+Added artists: 
+<ul>
+    {% for data in userdata %}
+    {{ data.aname }}<br>
+    {% endfor %}
+    </ul>
+Added songs: 
+<ul>
+    {% for data in userdata %}
+    {{ data.sname }}
+    {% endfor %}
+    </ul>
 {% endblock %}

@@ -27,7 +27,6 @@ CREATE TABLE songs (
     creator_id INTEGER REFERENCES users,
     artist_id INTEGER REFERENCES artists,
     sname TEXT NOT NULL,
-    gname TEXT NOT NULL,
     sdesc TEXT NOT NULL,
     hyperlink TEXT NOT NULL,
     condition TEXT NOT NULL
@@ -40,7 +39,7 @@ CREATE TABLE songsgenres (
 
 CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
+    creator_id INTEGER REFERENCES users,
     genre_id INTEGER REFERENCES genres,
     song_id INTEGER REFERENCES songs,
     artist_id INTEGER REFERENCES artists,
