@@ -2,13 +2,13 @@ from db import db
 
 
 def get_song_info(song_id):
-    sql = """SELECT s.name, u.name FROM songs s, users u
+    sql = """SELECT s.sname, u.username FROM songs s, users u
     WHERE s.id=:song_id AND u.creator_id=u.id"""
     return db.session.execute(sql, {"song_id": song_id}).fetchone()
 
 def get_reviews(song_id):
-    sql = """SELECT u.name, r.stars, r.comment FROM reviews r, users u 
-    WHERE r.user_id=u.id AND r.song_id=:song_id ORDER BY r.id"""
+    sql = """SELECT u.username, r.stars, r.comment FROM reviews r, users u 
+    WHERE r.creator_id=u.id AND r.song_id=:song_id ORDER BY r.id"""
     return db.session.execute(sql, {"song_id": song_id}).fetchall()
 
 def get_by_genre(gname):
@@ -37,3 +37,9 @@ def get_by_id(song_id):
     FROM songs s, genres g, songsgenres sg 
     WHERE sg.song_id=:song_id"""
     return db.session.execute(sql, {"song_id": song_id}).fetchone()
+
+def add_review(creator_id, song_id, artist_id, genre_id, stars, comment):
+    sql = """INSERT INTO reviews (creator_id, song_id, artist_id, genre_id, stars, comment)
+    VALUES (:creator_id, :song_id, :artist_id, :genre_id, :stars, :comment)"""
+    db.session.execute(sql, {"creator_id":creator_id, "song_id":song_id, "artist_id":artist_id, "genre_id":genre_id, "stars":stars, "comment":comment})
+    db.session.commit()

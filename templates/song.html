@@ -39,7 +39,9 @@
         Review:<br>
         <textarea name="comment" rows="3" cols="40" maxlength="1000"></textarea>
     <p><input type="submit" value="Send">
-        <input type="hidden" name="sid" value="{{ sid }}">
+        <input type="hidden" name="song_id" value="{{ song_id }}">
+        <input type="hidden" name="artist_id" value="{{ artist_id }}">
+        <input type="hidden" name="genre_id" value="{{ genre_id }}">
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}

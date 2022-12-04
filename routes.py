@@ -241,7 +241,31 @@ def show_songs():
 def show_song(song_id):
     song = songs.get_by_id(song_id)
     #print("song: " + str(song))
+    genreinfo = genres.get_genre_info_by_name(song[2])
     artist = artists.get_by_id(song[6])
-    return render_template("song.html", sid=song[0], sname=song[1], 
-    gname=song[2], sdesc=song[3], hyperlink=song[4], condition=song[5], aname=artist[1])
+    reviews = songs.get_reviews(song_id)
+    return render_template("song.html", song_id=song[0], sname=song[1], 
+    gname=song[2], sdesc=song[3], hyperlink=song[4], condition=song[5], 
+    aname=artist[1], artist_id=artist[0], genre_id=genreinfo[0], reviews=reviews)
 
+@app.route("/review", methods=["post"])
+def review():
+    users.check_csrf()
+
+    song_id = request.form["song_id"]
+    artist_id = request.form["artist_id"]
+    genre_id = request.form["genre_id"]
+
+    stars = int(request.form["stars"])
+    if stars < 1 or stars > 5:
+        return render_template("error.html", message="Wrong amount of stars")
+
+    comment = request.form["comment"]
+    if len(comment) > 1000:
+        return render_template("error.html", message="Comment too long")
+    if comment == "":
+        comment = "-"
+
+    songs.add_review(users.user_id(), song_id, artist_id, genre_id, stars, comment)
+
+    return redirect("/song/"+str(song_id))
