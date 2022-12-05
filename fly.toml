@@ -1,4 +1,4 @@
-# fly.toml file generated for musicreview on 2022-12-05T16:19:22+02:00
+# fly.toml file generated for musicreview on 2022-12-05T18:22:46+02:00
 
 app = "musicreview"
 kill_signal = "SIGINT"
