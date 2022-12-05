@@ -23,7 +23,6 @@ CREATE TABLE artists (
 
 CREATE TABLE songs ( 
     id SERIAL PRIMARY KEY,
-    genre_id INTEGER REFERENCES genres,
     creator_id INTEGER REFERENCES users,
     artist_id INTEGER REFERENCES artists,
     sname TEXT NOT NULL,
