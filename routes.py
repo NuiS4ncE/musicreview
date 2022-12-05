@@ -241,9 +241,11 @@ def show_songs():
 
 @app.route("/song/<int:song_id>")
 def show_song(song_id):
+    print("song_id: " + str(song_id))
     song = songs.get_by_id(song_id)
-    #print("song: " + str(song))
+    print("song: " + str(song))
     genreinfo = genres.get_genre_info_by_name(song[2])
+    print("genreinfo: " + str(genreinfo))
     artist = artists.get_by_id(song[6])
     reviews = songs.get_reviews(song_id)
     return render_template("song.html", song_id=song[0], sname=song[1], 

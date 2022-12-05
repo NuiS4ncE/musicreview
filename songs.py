@@ -33,9 +33,10 @@ def get_all_songs():
     return db.session.execute(sql).fetchall()
 
 def get_by_id(song_id):
+    print("song_id in get_by_id: " + str(song_id))
     sql = """SELECT s.id, s.sname, g.gname, s.sdesc, s.hyperlink, s.condition, s.artist_id 
-    FROM songs s, genres g, songsgenres sg 
-    WHERE sg.song_id=:song_id"""
+    FROM songs s, genres g, songsgenres sg
+    WHERE s.id=:song_id AND g.id = sg.genre_id"""
     return db.session.execute(sql, {"song_id": song_id}).fetchone()
 
 def add_review(creator_id, song_id, artist_id, genre_id, stars, comment):
