@@ -4,6 +4,8 @@ Sovellus testattavissa osoitteessa: https://musicreview.fly.dev/
 
 Sovelluksella voit arvostella ja kommentoida musiikkivideoita ja kappaleita. 
 
+## Ominaisuudet
+
 Sovelluksen ominaisuuksia tällä hetkellä ovat: 
 
 * Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen 
@@ -18,6 +20,8 @@ Sovelluksen ominaisuuksia tällä hetkellä ovat:
 Sovellukseen lisättävät ominaisuudet: 
 * Käyttäjä voi kommentoida kappaleen arviota 
 * Käyttäjä voi poistaa lisäämänsä kappaleen 
+
+## Paikallinen suoritus ja testaus
 
 Paikallisesti ohjelmaa voi testata seuraavasti: 
 1. Kloonaa repo `git clone git@github.com:NuiS4ncE/musicreview.git`

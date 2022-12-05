@@ -201,6 +201,8 @@ def register():
         username = request.form["username"]
         if len(username) < 1 or len(username) > 20:
             return render_template("error.html", message="Username has to be 1 to 20 characters long")
+        if (username == "" or (" " in username)):
+            return render_template("error.html", message="Username cannot contain whitespaces")
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
