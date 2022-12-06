@@ -45,5 +45,7 @@
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}
+{% if session.user_id %}
 <a href="/addsong">Add a song</a>    
+{% endif %}
 {% endblock %}

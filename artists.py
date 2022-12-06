@@ -1,7 +1,7 @@
 from db import db
 
 def get_all_artists():
-    sql = "SELECT id, aname FROM artists ORDER BY aname"
+    sql = "SELECT DISTINCT id, aname FROM artists ORDER BY aname"
     return db.session.execute(sql).fetchall()
 
 def add_artist(creator_id, genre_id, aname):

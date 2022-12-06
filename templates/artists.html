@@ -7,5 +7,7 @@
     <li><a href="/artist/{{ artist.id }}">{{ artist.aname }}</a>
     {% endfor %}
     </ul>
+    {% if session.user_id %}
     <a href="/addartist">Add an artist</a>
+    {% endif %}
 {% endblock %}

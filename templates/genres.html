@@ -5,7 +5,9 @@
 <ul>
     {% for genre in genres %}
     <li><a href="/genre/{{ genre.genre_url }}">{{ genre.gname }}</a>
-    {% endfor %}
-    </ul>
-    <a href="/addgenre">Add a genre</a>
+        {% endfor %}
+</ul>
+{% if session.user_id %}
+<a href="/addgenre">Add a genre</a>
+{% endif %}
 {% endblock %}

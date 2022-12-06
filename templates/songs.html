@@ -18,5 +18,7 @@
         {% endfor %}
         </tbody>
 </table>
-
+{% if session.user_id %}
+<a href="/addsong">Add a song</a>    
+{% endif %}
 {% endblock %}

@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 import artists
 import genres
 import users
@@ -96,7 +96,7 @@ def add_song():
         creator_id = users.user_id()
         artist_id = artists.add_artist(creator_id, genre_id, aname)
         song_id = songs.add_song(
-            creator_id, genre_id, artist_id, sname, sdesc, hyperlink, condition)
+            creator_id, artist_id, genre_id, sname, sdesc, hyperlink, condition)
         # print("Redirecting")
 
         return redirect("/song/"+str(song_id))
@@ -125,7 +125,7 @@ def url_parse(hyperlink):
         return soundcloud_find_stream_url(hyperlink)    
     if query.hostname in ("www.youtube.com", "youtube.com"):
         if query.path.startswith("/watch"):
-            p = urllib.parse.quote(query.query)
+            p = urllib.parse.parse_qs(query.query)
             return p["v"][0]
         if query.path.startswith("/embed/"):
             return query.path.split('/')[2]
@@ -238,6 +238,12 @@ def show_songs():
     #print("songdata " + str(songdata))
     return render_template("songs.html", songs=songdata)
 
+@app.route("/artist/<int:artist_id>")
+def show_artist(artist_id):
+    artist = artists.get_by_id(artist_id)
+    session['artistname'] = artist[1]
+    songli = songs.get_by_artist(artist_id)
+    return render_template("artist.html", songli=songli, artist=artist)
 
 @app.route("/song/<int:song_id>")
 def show_song(song_id):

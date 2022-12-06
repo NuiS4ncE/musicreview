@@ -25,6 +25,7 @@ CREATE TABLE songs (
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users,
     artist_id INTEGER REFERENCES artists,
+    genre_id INTEGER,
     sname TEXT NOT NULL,
     sdesc TEXT NOT NULL,
     hyperlink TEXT NOT NULL,
@@ -32,8 +33,16 @@ CREATE TABLE songs (
 );
 
 CREATE TABLE songsgenres ( 
-    genre_id INTEGER REFERENCES genres,
-    song_id INTEGER REFERENCES songs
+    genre_id INTEGER NOT NULL REFERENCES genres,
+    song_id INTEGER NOT NULL REFERENCES songs,
+    PRIMARY KEY (genre_id, song_id)
+);
+
+CREATE TABLE songsartists (
+    artist_id INTEGER NOT NULL REFERENCES artists,
+    song_id INTEGER NOT NULL REFERENCES songs,
+    PRIMARY KEY (artist_id, song_id)
+
 );
 
 CREATE TABLE reviews (

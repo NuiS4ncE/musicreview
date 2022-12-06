@@ -2,4 +2,24 @@
 {% block title %}Artist{% endblock %}
 {% block content %}
 <h2>Artist</h2>
+<h3>{{ artist.aname }}</h3>
+<p>
+<table>
+    <thead>
+        <th>Song</th>
+        <th>Genre</th>
+    </thead>
+
+    <body>
+        {% for song in songli %}
+        <tr>
+            <td><a href="/song/{{ song.id }}">{{ song.sname }}</a></td>
+            <td><a href="/genre/{{ song.gname }}">{{ song.gname }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
+{% if session.user_id %}
+<a href="/addsong">Add a song to the artist</a>
+{% endif %}
 {% endblock %}

@@ -4,11 +4,13 @@
 <h3>Genre description:</h3>
 {{ gdesc }}
 <p>
-<a href="/addsong">Add a song to the genre</a>
 <ul>
     {% for song in songli %}
     <li><a href="/song/{{ song.id }}">{{ song.sname }}</a>
-    {% endfor %}
-    </ul>
+        {% endfor %}
+</ul>
+{% if session.user_id %}
+<a href="/addsong">Add a song to the genre</a>
+{% endif %}
 
 {% endblock %}
