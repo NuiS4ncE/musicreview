@@ -11,8 +11,8 @@ Sovelluksen ominaisuuksia tällä hetkellä ovat:
 * Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen 
 * Käyttäjä voi lisätä kappaleen, antaa sille arvosanan ja kirjoittaa arvion 
 * Käyttäjä voi lisätä ulkoisen linkin kappaleeseen
-* Sovellus tukee embed muodossa youtube- ja souncloud-linkkejä
-* Käyttäjä voi lisätä musiikin tyylilajin "genre" 
+* Sovellus tukee embed-muodossa YouTube- ja SoundCloud-linkkejä
+* Käyttäjä voi lisätä musiikin tyylilajin ("genren") 
 * Käyttäjä voi lisätä artistin
 * Käyttäjä voi tarkastella lisäämiään tyylilajeja, artisteja ja kappaleita 
 
