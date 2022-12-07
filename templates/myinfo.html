@@ -5,20 +5,20 @@
 Username: {{ userdata.username }} <br>
 Added genres:
 <ul>
-    {% for data in userdata %}
+    {% for data in genredata %}
     <li><a href="/genre/{{ data.gname }}">{{ data.gname }}</a>
     {% endfor %}
     </ul>
 Added artists: 
 <ul>
-    {% for data in userdata %}
-    {{ data.aname }}<br>
+    {% for data in songdata %}
+    <li><a href="/song/{{ data.artist_id }}">{{ data.aname }}</a>
     {% endfor %}
     </ul>
 Added songs: 
 <ul>
-    {% for data in userdata %}
-    {{ data.sname }}
+    {% for data in songdata %}
+    <li><a href="/song/{{ data.song_id }}">{{ data.sname }}</a>
     {% endfor %}
     </ul>
 {% endblock %}

@@ -217,8 +217,10 @@ def register():
 
 @app.route("/myinfo")
 def show_myinfo():
-    myinfo = users.get_user_info(users.user_id())
-    return render_template("myinfo.html", userdata=myinfo)
+    userinfo = users.get_user_info(users.user_id())
+    songinfo = songs.get_by_user_id(users.user_id())
+    genreinfo = genres.get_by_user_id(users.user_id())
+    return render_template("myinfo.html", userdata=userinfo, songdata=songinfo, genredata=genreinfo)
 
 
 @app.route("/genres")

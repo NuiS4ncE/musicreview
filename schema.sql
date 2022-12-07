@@ -47,13 +47,6 @@ CREATE TABLE songsgenres (
     PRIMARY KEY (genre_id, song_id),
 );
 
-DROP TABLE IF EXISTS songsartists;
-CREATE TABLE songsartists (
-    artist_id INTEGER NOT NULL REFERENCES artists,
-    song_id INTEGER NOT NULL REFERENCES songs,
-    PRIMARY KEY (artist_id, song_id)
-);
-
 DROP TABLE IF EXISTS reviews;
 CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,

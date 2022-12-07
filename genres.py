@@ -36,3 +36,8 @@ def get_genre_info_by_url(genre_url):
 def check_if_gexists(gname):
     sql = """SELECT EXISTS (SELECT 1 FROM genres WHERE gname=:gname)"""
     return db.session.execute(sql, {"gname":gname}).fetchone()
+
+def get_by_user_id(user_id):
+    sql = """SELECT gname FROM genres 
+    WHERE genres.creator_id=:user_id"""
+    return db.session.execute(sql, {"user_id":user_id}).fetchall()

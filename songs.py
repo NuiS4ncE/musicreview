@@ -51,3 +51,9 @@ def add_review(creator_id, song_id, artist_id, genre_id, stars, comment):
     VALUES (:creator_id, :song_id, :artist_id, :genre_id, :stars, :comment)"""
     db.session.execute(sql, {"creator_id":creator_id, "song_id":song_id, "artist_id":artist_id, "genre_id":genre_id, "stars":stars, "comment":comment})
     db.session.commit()
+
+def get_by_user_id(user_id):
+    sql = """SELECT s.id AS song_id, s.sname, a.id AS artist_id, a.aname 
+    FROM artists a, songs s 
+    WHERE a.creator_id=:user_id AND s.artist_id=a.id"""
+    return db.session.execute(sql, {"user_id":user_id}).fetchall()
