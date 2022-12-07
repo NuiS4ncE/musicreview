@@ -29,9 +29,11 @@ def add_artist():
         if len(aname) < 1 or len(aname) > 200:
             return render_template("error.html", message="Song name should be 1-200 characters long")
 
-        
-        artist_id = artists.add_song(
-            users.user_id(), aname)
+        print(str(artists.check_if_exists(aname)))
+        if(artists.check_if_exists(aname)):
+            artist_id = artists.get_id_by_name(aname)
+        else:
+            artist_id = artists.add_song(users.user_id(), aname)
         # print("Redirecting")
 
         return redirect("/artist/"+str(artist_id))
@@ -92,12 +94,18 @@ def add_song():
         # print("Hyperlink " + hyperlink)
         condition = url_check(hyperlink)
         hyperlink = url_parse(hyperlink)
-        
         creator_id = users.user_id()
-        artist_id = artists.add_artist(creator_id, genre_id, aname)
-        song_id = songs.add_song(
-            creator_id, artist_id, genre_id, sname, sdesc, hyperlink, condition)
-        # print("Redirecting")
+        print("Artist check truth value: " + str(artists.check_if_exists(aname)))
+        print("Artist id check by name: " + str(artists.get_id_by_name(aname)[0]))
+        if(str(artists.check_if_exists(aname))):
+            artist_id = artists.get_id_by_name(aname)[0]
+        else:
+            artist_id = artists.add_artist(creator_id, genre_id, aname)
+        if(str(songs.check_if_exists(sname, aname))):
+            song_id = songs.get_by_song_artist(sname, aname)[0]
+            return redirect("/song/"+str(song_id))
+        else:
+            song_id = songs.add_song(creator_id, artist_id, genre_id, sname, sdesc, hyperlink, condition)
 
         return redirect("/song/"+str(song_id))
 
@@ -220,7 +228,8 @@ def show_myinfo():
     userinfo = users.get_user_info(users.user_id())
     songinfo = songs.get_by_user_id(users.user_id())
     genreinfo = genres.get_by_user_id(users.user_id())
-    return render_template("myinfo.html", userdata=userinfo, songdata=songinfo, genredata=genreinfo)
+    print(str(userinfo))
+    return render_template("myinfo.html", userdata=userinfo[0], songdata=songinfo, genredata=genreinfo)
 
 
 @app.route("/genres")
@@ -243,7 +252,7 @@ def show_songs():
 @app.route("/artist/<int:artist_id>")
 def show_artist(artist_id):
     artist = artists.get_by_id(artist_id)
-    session['artistname'] = artist[1]
+    #session['artistname'] = artist[1]
     songli = songs.get_by_artist(artist_id)
     return render_template("artist.html", songli=songli, artist=artist)
 

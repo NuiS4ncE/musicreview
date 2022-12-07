@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE users (
     visible INTEGER
 );
 
-DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS genres CASCADE;
 CREATE TABLE genres (
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users,
@@ -18,7 +18,7 @@ CREATE TABLE genres (
     visible INTEGER
 );
 
-DROP TABLE IF EXISTS artists;
+DROP TABLE IF EXISTS artists CASCADE;
 CREATE TABLE artists (
     id SERIAL PRIMARY KEY,
     genre_id INTEGER REFERENCES genres,
@@ -27,7 +27,7 @@ CREATE TABLE artists (
     visible INTEGER
 );
 
-DROP TABLE IF EXISTS songs;
+DROP TABLE IF EXISTS songs CASCADE;
 CREATE TABLE songs ( 
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users,
@@ -40,14 +40,14 @@ CREATE TABLE songs (
     visible INTEGER
 );
 
-DROP TABLE IF EXISTS songsgenres;
+DROP TABLE IF EXISTS songsgenres CASCADE;
 CREATE TABLE songsgenres ( 
     genre_id INTEGER NOT NULL REFERENCES genres,
     song_id INTEGER NOT NULL REFERENCES songs,
-    PRIMARY KEY (genre_id, song_id),
+    PRIMARY KEY (genre_id, song_id)
 );
 
-DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS reviews CASCADE;
 CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES users,

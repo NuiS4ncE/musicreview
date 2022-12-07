@@ -57,3 +57,14 @@ def get_by_user_id(user_id):
     FROM artists a, songs s 
     WHERE a.creator_id=:user_id AND s.artist_id=a.id"""
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
+
+def get_by_song_artist(sname, aname):
+    sql = """SELECT s.id FROM songs s, artists a 
+    WHERE s.sname=:sname AND a.aname=:aname"""
+    return db.session.execute(sql, {"sname":sname, "aname":aname}).fetchone()
+
+def check_if_exists(sname, aname):
+    sql = """SELECT EXISTS
+    (SELECT 1 FROM songs s, artists a 
+    WHERE s.sname=:sname AND a.aname=:aname)"""
+    return db.session.execute(sql, {"sname":sname, "aname":aname}).fetchone()

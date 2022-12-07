@@ -15,3 +15,13 @@ def get_by_id(artist_id):
     sql = """SELECT id, aname FROM artists WHERE id=:artist_id"""
     artist = db.session.execute(sql, {"artist_id":artist_id}).fetchone()
     return artist
+
+def check_if_exists(aname):
+    sql = """SELECT EXISTS 
+    (SELECT 1 FROM artists WHERE aname=:aname)"""
+    truthValue = db.session.execute(sql, {"aname":aname}).fetchone()
+    return truthValue
+
+def get_id_by_name(aname):
+    sql = """SELECT id FROM artists WHERE aname=:aname"""
+    return db.session.execute(sql, {"aname":aname}).fetchone()
