@@ -25,3 +25,7 @@ def check_if_exists(aname):
 def get_id_by_name(aname):
     sql = """SELECT id FROM artists WHERE aname=:aname"""
     return db.session.execute(sql, {"aname":aname}).fetchone()
+
+def get_artists_by_genre_id(genre_id):
+    sql = """SELECT id, aname FROM artists WHERE genre_id=:genre_id"""
+    return db.session.execute(sql, {"genre_id":genre_id}).fetchall()

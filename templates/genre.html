@@ -4,6 +4,13 @@
 <h3>Genre description:</h3>
 {{ gdesc }}
 <p>
+    <h4>Artists in genre:</h4>
+    <ul>
+        {% for artist in artistlist %}
+        <li><a href="/artist/{{ artist.id }}">{{ artist.aname }}</a>
+            {% endfor %}
+    </ul>
+<h4>Songs in genre:</h4>
 <ul>
     {% for song in songlist %}
     <li><a href="/song/{{ song.id }}">{{ song.sname }}</a>

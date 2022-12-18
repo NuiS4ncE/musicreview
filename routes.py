@@ -176,9 +176,11 @@ def show_genre(genre_url):
     info = genres.get_genre_info_by_name(gname)
     # reviews = songs.get_reviews()
     songli = songs.get_by_genre(gname)
+    artistli = artists.get_artists_by_genre_id(info[0])
     print(songli)
+    print(artistli)
     # print("Info[0] " + str(info[0]) + " and info[1] " + str(info[1]) + " and info[2] " + str(info[2]) + " and info[3] " + str(info[3]))
-    return render_template("genre.html", genre_id=info[0], gname=info[1], gdesc=info[2], songlist=songli)
+    return render_template("genre.html", genre_id=info[0], gname=info[1], gdesc=info[2], songlist=songli, artistlist=artistli)
 
 
 @app.route("/login", methods=["get", "post"])
