@@ -172,6 +172,7 @@ def remove_genre():
 def show_genre(genre_url):
     print("genre_url in show_genre: " + genre_url)
     gname = urllib.parse.unquote(genre_url)
+    print("genre name urllib.parse.unquote: " + gname)
     info = genres.get_genre_info_by_name(gname)
     # reviews = songs.get_reviews()
     songli = songs.get_by_genre(gname)
