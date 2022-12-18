@@ -95,13 +95,13 @@ def add_song():
         condition = url_check(hyperlink)
         hyperlink = url_parse(hyperlink)
         creator_id = users.user_id()
-        print("Artist check truth value: " + str(artists.check_if_exists(aname)))
-        print("Artist id check by name: " + str(artists.get_id_by_name(aname)[0]))
-        if(str(artists.check_if_exists(aname))):
+        print("Artist check truth value: " + str(artists.check_if_exists(aname)[0]))
+        #print("Artist id check by name: " + str(artists.get_id_by_name(aname)[0]))
+        if(str(artists.check_if_exists(aname)[0]) == 'True'):
             artist_id = artists.get_id_by_name(aname)[0]
         else:
             artist_id = artists.add_artist(creator_id, genre_id, aname)
-        if(str(songs.check_if_exists(sname, aname))):
+        if(str(songs.check_if_exists(sname, aname)[0]) == 'True'):
             song_id = songs.get_by_song_artist(sname, aname)[0]
             return redirect("/song/"+str(song_id))
         else:
