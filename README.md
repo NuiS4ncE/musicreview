@@ -1,7 +1,6 @@
 # Musicreview 
 
 Sovellus testattavissa osoitteessa: https://musicreview.fly.dev/
-**TÄLLÄ HETKELLÄ (18.12.2022 klo 6:20 eteenpäin) EI TOIMI FLY.IO:ON LIITTYVIEN ONGELMIEN TAKIA.**
 
 Sovelluksella voit arvostella ja kommentoida musiikkivideoita ja kappaleita. 
 
