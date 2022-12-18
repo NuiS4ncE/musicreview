@@ -34,8 +34,8 @@ CREATE TABLE songs (
     artist_id INTEGER REFERENCES artists,
     genre_id INTEGER,
     sname TEXT NOT NULL,
-    sdesc TEXT NOT NULL,
-    hyperlink TEXT NOT NULL,
+    sdesc TEXT,
+    hyperlink TEXT,
     condition TEXT NOT NULL,
     visible INTEGER
 );

@@ -39,8 +39,10 @@ def get_all_songs():
 def get_by_id(song_id):
     print("song_id in get_by_id: " + str(song_id))
     sql = """SELECT s.id, s.sname, g.gname, s.sdesc, s.hyperlink, s.condition, s.artist_id 
-    FROM songs s, genres g, songsgenres sg
-    WHERE s.id=:song_id AND sg.song_id =:song_id"""
+    FROM songs s 
+    JOIN songsgenres sg ON sg.song_id=:song_id 
+    JOIN genres g ON g.id=sg.genre_id
+    WHERE s.id=:song_id AND sg.song_id=:song_id"""
     return db.session.execute(sql, {"song_id":song_id}).fetchone()
 
 def get_by_artist(artist_id):
