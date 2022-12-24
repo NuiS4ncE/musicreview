@@ -14,10 +14,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="/songs">Songs</a>
             </li>
+            {% if session.user_id %}
             <li class="nav-item">
                 <a class="nav-link" href="/myinfo">My Info</a>
             </li>
-            {% if session.user_id %}
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Logout</a>
             </li>
