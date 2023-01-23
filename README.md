@@ -1,6 +1,6 @@
 # Musicreview 
 
-Sovellus testattavissa osoitteessa: https://musicreview.fly.dev/
+~~Sovellus testattavissa osoitteessa: https://musicreview.fly.dev/~~
 
 Sovelluksella voit arvostella ja kommentoida musiikkivideoita ja kappaleita. 
 
